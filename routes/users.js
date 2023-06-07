@@ -8,3 +8,4 @@ router.post("/register", register);
 router.get("/current", auth, current);
 
 module.exports = router;
+
