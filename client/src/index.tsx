@@ -7,8 +7,9 @@ import { Paths } from './paths'
 import { ConfigProvider, theme } from "antd";
 
 import './styles/style.scss'
-import Login from './pages/login'
-import Register from './pages/register'
+import Login from './pages/Login'
+import Register from './pages/Register'
+
 
 const router = createBrowserRouter([
   {
