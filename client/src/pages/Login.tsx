@@ -1,19 +1,51 @@
 import { Card, Form, Row, Space, Typography } from 'antd'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
 import CustomInput from '../components/CustomInput'
-import PasswordInput from '../components/PasswordInput'
 import { CustomButton } from '../components/CustomButton'
+import PasswordInput from '../components/PasswordInput'
 import { Paths } from '../paths'
 import Layout from '../components/Layout'
+import { UserData, useLoginMutation } from '../app/services/auth'
+import { selectUser } from '../features/auth/authSlice'
+import { isErrorWithMessage } from '../utils/is-error-with-message'
+import ErrorMessage from '../components/ErrorMessage'
+
 
 const Login = () => {
+  const navigate = useNavigate()
+  const [error, setError] = useState('')
+  const user = useSelector(selectUser)
+  const [loginUser, loginUserResult] = useLoginMutation()
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [user, navigate])
+
+  const login = async (data: UserData) => {
+    try {
+      await loginUser(data).unwrap()
+
+      navigate('/')
+    } catch (err) {
+      const maybeError = isErrorWithMessage(err)
+
+      if (maybeError) {
+        setError(err.data.message)
+      } else {
+        setError('Неизвестная ошибка')
+      }
+    }
+  }
   return (
     <Layout>
       <Row align="middle" justify="center">
         <Card title="Войдите" style={{ width: '30rem' }}>
-          <Form onFinish={() => null}>
+          <Form onFinish={login}>
             <CustomInput type="email" name="email" placeholder="Email" />
             <PasswordInput name="password" placeholder="Пароль" />
             <CustomButton type="primary" htmlType="submit">
@@ -24,6 +56,7 @@ const Login = () => {
             <Typography.Text>
               Нет аккаунта? <Link to={Paths.register}>Зарегистрируйтесь</Link>
             </Typography.Text>
+            <ErrorMessage message={error} />
           </Space>
         </Card>
       </Row>
