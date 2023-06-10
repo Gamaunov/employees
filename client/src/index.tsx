@@ -4,12 +4,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './app/store'
 import { Paths } from './paths'
-import { ConfigProvider, theme } from "antd";
+import { ConfigProvider, theme } from 'antd'
 
 import './styles/style.scss'
 import Login from './pages/Login'
 import Register from './pages/Register'
-
+import { Auth } from './features/auth/auth'
 
 const router = createBrowserRouter([
   {
@@ -53,7 +53,9 @@ root.render(
           algorithm: theme.darkAlgorithm,
         }}
       >
-        <RouterProvider router={router} />
+        <Auth>
+          <RouterProvider router={router} />
+        </Auth>
       </ConfigProvider>
     </Provider>
   </React.StrictMode>,
