@@ -3,18 +3,23 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './app/store'
-import { Paths } from './paths'
 import { ConfigProvider, theme } from 'antd'
 
 import './styles/style.scss'
+import { Paths } from './paths'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import { Auth } from './features/auth/auth'
+import AddEmployee from './pages/AddEmployee'
+import Employees from './pages/Employees'
+import EditEmployee from './pages/EditEmployee'
+import Status from './pages/Status'
+import Employee from './pages/Employee'
 
 const router = createBrowserRouter([
   {
     path: Paths.home,
-    element: <h1>home</h1>,
+    element: <Employees />,
   },
   {
     path: Paths.login,
@@ -26,19 +31,19 @@ const router = createBrowserRouter([
   },
   {
     path: Paths.employeeAdd,
-    element: <h1>employeeAdd</h1>,
+    element: <AddEmployee />,
   },
   {
     path: `${Paths.employee}/:id`,
-    element: <h1>employee</h1>,
+    element: <Employee />,
   },
   {
     path: `${Paths.employeeEdit}/:id`,
-    element: <h1>employeeEdit</h1>,
+    element: <EditEmployee />,
   },
   {
     path: `${Paths.status}/:status`,
-    element: <h1>status</h1>,
+    element: <Status />,
   },
 ])
 
